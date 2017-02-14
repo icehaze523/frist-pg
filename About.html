@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>简历</title>
+    <script src="js/vue.js"></script>
+</head>
+<style>
+    *{
+        border:0;
+        margin: 0;
+        padding: 0;
+    }
+    #wrap {
+        margin:0 auto;
+        width:600px;
+        height:400px;
+        background: #64b4ff;
+    }
+    div#content{
+        width:500px;
+        height:300px;
+        background: #64c8ff;
+        float:left;
+    }
+    div#content h1 {
+        color: #000000;
+        font-size:30px;
+        text-align: center;
+    }
+    div#content div{
+        margin:25px;
+    }
+
+    div#left{
+        height:400px;
+        width:100px;
+        background-color: black;
+        float:left;
+    }
+    div#left li{
+        list-style: none;
+        margin:10px 0 10px 18px;
+
+    }
+    div#left li a{
+        text-decoration: none;
+        color:#fff;
+        font-size:15px;
+    }
+
+    div#control {
+        width:500px;
+        height:100px;
+        float: left;
+    }
+    div#control ul{
+        margin: 20px 0 0 130px;
+    }
+
+    div#control li{
+        width:80px;
+        height:60px;
+        list-style: none;
+        float: left;
+        margin-left:20px;
+    }
+    div#control img{
+        width:80px;
+        height:60px;
+        list-style: none;
+        float: left;
+
+    }
+
+
+</style>
+<body>
+<div id="wrap">
+    <div id="left">
+        <ul>
+            <li><a @click="box='pmessage'" href="#">个人信息</a></li>
+            <li><a @click="box='went'" href="#">求职意向</a></li>
+            <li><a @click="box='myself'" href="#">自我评价</a></li>
+            <li><a @click="box='experience'" href="#">工作经验</a></li>
+            <li><a @click="box='education'" href="#">教育背景</a></li>
+            <li><a @click="box='like'" href="#">兴趣爱好</a></li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <message-list v-if="box==='pmessage'" >
+            <h1 slot="title" >个人信息</h1>
+            <p slot="content">
+                男|未婚|1993年3月生| 户口：浙江-温州| 现居住于:浙江 杭州
+                2年工作经验 |群众
+                身份证:330327199303200290
+
+                15068705476
+
+                E-mail：523879480@qq.com
+            </p>
+        </message-list>
+        <message-list v-else-if="box==='went'" >
+            <h1 slot="title">求职意向</h1>
+            <p slot="content">
+                期望工作性质： 	全职
+                期望从事职业： 	销售业务、销售行政/商务、客服/售前/售后技术支持
+                期望从事行业： 	互联网/电子商务、通信/电信/网络设备
+                期望工作地区： 	杭州
+                期望月薪： 	4001-6000元/月
+                目前状况： 	我目前处于离职状态，可立即上岗
+            </p>
+        </message-list>
+        <message-list v-else-if="box==='myself'" >
+            <h1 slot="title">自我评价</h1>
+            <p slot="content">
+                有一年的多工作经验，逻辑清晰，沟通能力较强。
+                对人热衷，性格好，对工作认真负责，有团队精神。
+            </p>
+        </message-list>
+        <message-list v-else-if="box==='experience'" >
+            <h1 slot="title">工作经验</h1>
+            <h3 slot="content">2016/04 -- 2016/06:</h3>
+            <p slot="content">杭州慨阳科技有限公司 | 运维
+                通信/电信/网络设备 | 4001-6000元/月
+                车载GPS定位监控平台的监控维护，监控线上的服务质量，处理突发故障。根据客户反馈及时对出现的故障与产品开发部门协调解决。
+            </p>
+<!--            <h3 slot="content">2015/08 &#45;&#45; 2016/01:</h3>
+            <p slot="content">青岛联信杭州分公司 | 法务员
+                外包服务 | 6001-8000元/月
+                接受阿里巴巴集团委托，按照客户要求的规范程序通过电话、信函等方式，为其处理个人消费类贷款的后端的诉前调解、协商等事宜，降低资产不良率，维护用户良好征信的同时，维护金融秩序的稳定。 </p>-->
+        </message-list>
+        <message-list v-else-if="box==='education'" >
+            <h1 slot="title">教育背景</h1>
+            <h3 slot="content">2011/09 -- 2015/07 ：</h3>
+            <p slot="content">
+                浙江大学城市学院 | 机械设计制造及其自动化 | 本科 | 统招
+            </p>
+        </message-list>
+        <message-list v-else="box==='like'" >
+            <h1 slot="title">兴趣爱好</h1>
+            <p slot="content">
+                运动 游戏
+            </p>
+        </message-list>
+    </div>
+
+    <div id="control">
+        <ul>
+            <li key="backbt"><img src="img/backspace.png" @click.prevent="back" v-if="box!=list[0]" ></li>
+            <li key="nextbt"><img src="img/nextspace.png" @click.prevent="next" v-if="box!=list[list.length-1]" ></li>
+        </ul>
+    </div>
+</div>
+<script>
+    Vue.component("message-list",{
+        template: "<div><slot name='title'></slot><slot name='content'></slot></div>"
+    })
+
+    var vm = new Vue({
+        el: "#wrap",
+        data: {
+            show:true,
+            box: "pmessage",
+            list: ["pmessage","went","myself","experience","education","like"]
+        },
+        computed: {
+            index: function(){
+                for(var i=0,len=this.list.length;i<len;i++){
+                    if(this.box==this.list[i]){
+                        return i;
+                    }
+                }
+            }
+        },
+        methods: {
+            back: function () {
+                this.box=this.list[this.index-1];
+            },
+            next: function () {
+                this.box=this.list[this.index+1];
+            }
+
+        }
+    })
+</script>
+</body>
+</html>
